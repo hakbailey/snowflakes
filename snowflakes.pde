@@ -1,3 +1,6 @@
+// Falling snowflakes
+// @helenkbailey
+
 float theta = radians(60);
 float minHexRadius = 10;
 float maxHexRadius = 50;
