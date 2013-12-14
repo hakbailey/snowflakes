@@ -16,7 +16,7 @@ void setup() {
   snowflakes = new ArrayList();
   for (int i = 0; i < numFlakes; i++) {
     if (random(10) < 5) {
-      flakeColor = color(int(random(40, 60)), int(random(60, 200)), int(random(210, 230)), 40);
+      flakeColor = color(int(random(30, 60)), int(random(60, 200)), int(random(210, 230)), 40);
       snowflakes.add(new HexFlake(flakeColor, random(width), random(-height, height), int(random(minFlakeRadius, maxFlakeRadius))));
     }
     else {

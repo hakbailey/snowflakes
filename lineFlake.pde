@@ -1,27 +1,10 @@
-class LineFlake {
-  color c;
-  float xCenter, yCenter;
-  int radius;
-  float xDelta, yDelta;
-  float spin, spinRate;
+class LineFlake extends Flake{
   ArrayList stemValues;
   
   LineFlake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
-    c = color(flakeColor);
-    xCenter = xFlake;
-    yCenter = yFlake;
-    radius = flakeRadius;
-    xDelta = random(-1, 1);
-    yDelta = random(1, 3);
-    spin = 0;
-    spinRate = 0;
-    stemValues = new ArrayList();
-  
-    calculateStemValues();
-    
-    while (abs(spinRate) < 0.005) {
-      spinRate=random(-0.015, 0.015);
-    }
+    super(flakeColor, xFlake, yFlake, flakeRadius);
+    stemValues = new ArrayList();  
+    calculateStemValues();    
   }
   
   void display() {
@@ -73,14 +56,5 @@ class LineFlake {
       popMatrix();
     }
   }
-      
-  void fall() {
-    spin += spinRate;
-    xCenter += xDelta;
-    yCenter += yDelta;
-  }
-  
-  public float getY() {
-    return yCenter;
-  }
+
 }

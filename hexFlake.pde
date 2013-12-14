@@ -1,22 +1,10 @@
-class HexFlake {
-  color c;
-  float xCenter, yCenter;
-  int radius;
-  float xDelta, yDelta;
-  float spin, spinRate;
+class HexFlake extends Flake {
   int numHexSets;
   int[][] hexSetValues;
   ArrayList hexSetCoords;
   
   HexFlake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
-    c = color(flakeColor);
-    xCenter = xFlake;
-    yCenter = yFlake;
-    radius = flakeRadius;
-    xDelta = random(-1, 1);
-    yDelta = random(1, 3);
-    spin = 0;
-    spinRate = 0;
+    super(flakeColor, xFlake, yFlake, flakeRadius);
     hexSetCoords = new ArrayList();
 
     numHexSets = int(random(5, 9));
@@ -29,10 +17,6 @@ class HexFlake {
     
     for (int j = 0; j < numHexSets; j++) {
       addHexSet(hexSetValues[j][0], hexSetValues[j][1]);
-    }
-    
-    while (abs(spinRate) < 0.005) {
-      spinRate=random(-0.015, 0.015);
     }
   }
   
@@ -75,13 +59,4 @@ class HexFlake {
     hexSetCoords.add(coords);
   }
       
-  void fall() {
-    spin += spinRate;
-    xCenter += xDelta;
-    yCenter += yDelta;
-  }
-  
-  public float getY() {
-    return yCenter;
-  }
 }
