@@ -21,7 +21,7 @@ class HexFlake extends Flake {
   }
   
   void display() {
-    fill(c);
+    fill(red(c) + random(-10, 10), green(c) + random(-10, 10), blue(c) + random(-10, 10), 40);
     noStroke();
     pushMatrix();
     translate(xCenter, yCenter);

@@ -4,6 +4,7 @@ class Flake {
   int radius;
   float xDelta, yDelta;
   float spin, spinRate;
+  boolean sparkle = false; 
   
   Flake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
     c = color(flakeColor);

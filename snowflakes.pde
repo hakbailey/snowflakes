@@ -41,7 +41,7 @@ void draw() {
       tempflake.display();      
     }
   updateSnowflakes();
-  println(frameRate);
+//  println(frameRate);
   }
 }
 
