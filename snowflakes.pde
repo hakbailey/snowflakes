@@ -9,6 +9,7 @@ float maxFlakeRadius = 200;
 int numFlakes = 20;
 color flakeColor;
 ArrayList snowflakes;
+float easing = 0.01;
 
 void setup() {
   size(displayWidth, displayHeight, P2D);
@@ -27,8 +28,8 @@ void setup() {
 }
 
 void draw() {
-  background(255);
-  for (int i = 0; i < snowflakes.size(); i++) {
+  background(0);
+  for (int i = snowflakes.size()-1; i > 0; i--) {
     Object tempObj = snowflakes.get(i);
     if (tempObj instanceof HexFlake) {
       HexFlake tempflake = (HexFlake)snowflakes.get(i);
@@ -38,10 +39,11 @@ void draw() {
     else if (tempObj instanceof LineFlake) {
       LineFlake tempflake = (LineFlake)snowflakes.get(i);
       tempflake.fall();
-      tempflake.display();      
+      tempflake.display();
+      tempflake.respondToWind();
     }
   updateSnowflakes();
-  //println(frameRate);
+//  println(frameRate);
   }
 }
 

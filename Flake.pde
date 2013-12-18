@@ -4,6 +4,7 @@ class Flake {
   int radius;
   float xDelta, yDelta;
   float spin, spinRate;
+  boolean sparkle = false; 
   
   Flake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
     c = color(flakeColor);
@@ -24,6 +25,10 @@ class Flake {
     spin += spinRate;
     xCenter += xDelta;
     yCenter += yDelta;
+  }
+  
+  void respondToWind() {
+    
   }
   
   public float getY() {
