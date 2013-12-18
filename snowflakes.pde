@@ -33,17 +33,23 @@ PVector wind;
 boolean daytime = false;
 boolean pause = false;
 boolean tornadoMode = false;
-boolean rotateFlakes = false;
+boolean rotateFlakes = true;
 boolean antiGravityOn = false;
 boolean zScatter = true;
+boolean backgroundOn = false;
 
 float rotation = 0f; 
+
+PImage background;
+String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
   noCursor();
   smooth();
   hint(DISABLE_DEPTH_TEST);
+  
+  background = loadImage(backgroundPath);
 
   leap = new LeapMotionP5(this);
   leap.enableGesture(Type.TYPE_SWIPE);
@@ -75,6 +81,10 @@ void draw() {
   } 
   else {
     background(0);
+  }
+  
+  if(backgroundOn) {
+    image(background, 0, 0);
   }
 
   createSnowflakes();
@@ -188,10 +198,15 @@ public void keyPressed() {
     pause = !pause;
     break;
   case 'a':
+    
     antiGravityOn = !antiGravityOn;
     break;
   case 'z':
     zScatter = !zScatter;
+    break;
+  case 'b':
+    backgroundOn = !backgroundOn;
+    break;
   default:
     break;
   }
