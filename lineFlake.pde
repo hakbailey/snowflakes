@@ -1,18 +1,22 @@
 class LineFlake extends Flake{
   ArrayList stemValues;
   
-  LineFlake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
-    super(flakeColor, xFlake, yFlake, flakeRadius);
+  LineFlake(color flakeColor, float xFlake, float yFlake, float zFlake, int flakeRadius) {
+    super(flakeColor, xFlake, yFlake, zFlake, flakeRadius);
     stemValues = new ArrayList();  
     calculateStemValues();    
   }
   
   void display() {
     strokeWeight(8);
-//    stroke(c);
-    stroke(red(c) + random(-10, 10), green(c) + random(-10, 10), blue(c) + random(-10, 10), 40);
+    stroke(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
     pushMatrix();
-    translate(xCenter, yCenter);
+    translate(location.x, location.y, location.z);
+    
+    // Spin 2D, and conditionally 3D
+    if(rotateFlakes) {
+      rotateY(spin/4);
+    }
     rotate(spin);
     
     hexSkeleton(radius);
