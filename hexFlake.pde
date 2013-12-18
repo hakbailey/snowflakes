@@ -3,8 +3,8 @@ class HexFlake extends Flake {
   int[][] hexSetValues;
   ArrayList hexSetCoords;
   
-  HexFlake(color flakeColor, float xFlake, float yFlake, int flakeRadius) {
-    super(flakeColor, xFlake, yFlake, flakeRadius);
+  HexFlake(color flakeColor, float xFlake, float yFlake, float zFlake, int flakeRadius) {
+    super(flakeColor, xFlake, yFlake, zFlake, flakeRadius);
     hexSetCoords = new ArrayList();
 
     numHexSets = int(random(5, 9));
@@ -21,13 +21,17 @@ class HexFlake extends Flake {
   }
   
   void display() {
-//    fill(c)
-//    fill(red(c) + random(-10, 10), green(c) + random(-10, 10), blue(c) + random(-10, 10), 40);
-    fill(red(c), green(c), blue(c), random(35, 45));
+    fill(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
     noStroke();
     pushMatrix();
-    translate(xCenter, yCenter);
+    translate(location.x, location.y, location.z);
+    
+    // Spin 2D, and conditionally 3D
+    if(rotateFlakes) {
+      rotateY(spin/4);
+    }
     rotate(spin);
+    
     hexagon(radius, 0, 0);
 
     for (int i = 0; i < hexSetCoords.size(); i++) {
@@ -60,5 +64,4 @@ class HexFlake extends Flake {
                           {setRadius * cos(theta), -setRadius * sin(theta)}  };
     hexSetCoords.add(coords);
   }
-      
 }
