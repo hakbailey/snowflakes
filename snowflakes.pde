@@ -32,6 +32,7 @@ PVector wind;
 // States
 boolean daytime = false;
 boolean pause = false;
+boolean cursor = false;
 boolean tornadoMode = false;
 boolean rotateFlakes = true;
 boolean antiGravityOn = false;
@@ -45,7 +46,6 @@ String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-  //noCursor();
   smooth();
   
   // OPENGL Hint required to draw transparency correctly in 3D
@@ -96,6 +96,12 @@ void draw() {
   // Draw backdrop if configured and present
   if(backgroundOn && background != null) {
     image(background, 0, 0);
+  }
+  
+  if(cursor) {
+    cursor();
+  } else {
+    noCursor();
   }
 
   createSnowflakes();
@@ -203,6 +209,7 @@ public void keyPressed() {
     break;
   case ' ':
     pause = !pause;
+    cursor = !cursor;
     break;
   case 'a':
     antiGravityOn = !antiGravityOn;
@@ -237,9 +244,8 @@ void mouseClicked() {
       //make a flake display in the buffer!  flake.display();
       buffer.endDraw();
 
-      println("mouse clicked");
       PImage img = buffer.get();
-      img.save("test.jpg");
+      img.save("snowflake.jpg");
     }
   }
 }

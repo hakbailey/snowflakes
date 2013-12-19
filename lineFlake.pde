@@ -64,7 +64,7 @@ class LineFlake extends Flake{
   
   void drawToBuffer(PGraphics buffer) {
     buffer.strokeWeight(8);
-    buffer.stroke(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
+    buffer.stroke(red(c), green(c), blue(c), alpha(c) + 10);
     translate(width/2, height/2, location.z);
     
     hexSkeletonBuffer(radius, buffer);
