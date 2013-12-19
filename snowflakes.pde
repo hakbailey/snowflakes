@@ -15,7 +15,7 @@ float maxHexRadius = 50;
 float minFlakeRadius = 200;
 float maxFlakeRadius = 200;
 int initNumFlakes = 25;
-int numFlakes = 50;
+int numFlakes = 75;
 color flakeColor;
 ArrayList<Flake> snowflakes;
 float zMin = -2000;
@@ -82,16 +82,25 @@ void setup() {
       flakeColor = color(int(random(40, 60)), int(random(60, 200)), int(random(210, 230)), tLine);
       snowflakes.add(new LineFlake(flakeColor, random(-Z_OFFSET, displayWidth+Z_OFFSET), random(-displayHeight, displayHeight), tempZ, int(random(minFlakeRadius, maxFlakeRadius))));
     }
+    
+    for(int j = 0; j < 2; j++) {
+      snowflakes.add(new CubeFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height, height), tempZ, int(random(8, 15))));
+    }
   }
 }
 
 void draw() {
+
   if (daytime) {
     background(240);
   } 
   else {
     background(0);
   }
+  
+  lights();
+  directionalLight(160, 160, 160, -100, 150, -100);
+  ambientLight(140, 140, 140);
   
   // Draw backdrop if configured and present
   if(backgroundOn && background != null) {
@@ -116,6 +125,10 @@ void createSnowflakes() {
         float tLine = map(tempZ, zMin, zMax, 10, 80);
         flakeColor = color(int(random(40, 60)), int(random(60, 200)), int(random(210, 230)), tLine);
         snowflakes.add(new LineFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, int(random(minFlakeRadius, maxFlakeRadius))));
+        
+        for(int j = 0; j < 2; j++) {
+          snowflakes.add(new CubeFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, int(random(8, 15))));
+        }
       }
     }
   }
@@ -239,7 +252,7 @@ void mouseClicked() {
 
       println("mouse clicked");
       PImage img = buffer.get();
-      img.save("test.jpg");
+      img.save("your_flake_" + millis() + ".png");
     }
   }
 }
