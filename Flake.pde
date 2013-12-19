@@ -3,6 +3,7 @@ abstract class Flake {
   int radius;
   float xDelta, yDelta;
   float spin, spinRate;
+  boolean sparkle = false; 
   
   PVector location;
   PVector velocity;
