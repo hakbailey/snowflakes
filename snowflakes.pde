@@ -14,7 +14,7 @@ float maxHexRadius = 50;
 //float minFlakeRadius = 50;
 float minFlakeRadius = 200;
 float maxFlakeRadius = 200;
-int initNumFlakes = 25;
+int initNumFlakes = 20;
 int numFlakes = 75;
 color flakeColor;
 ArrayList<Flake> snowflakes;
@@ -121,7 +121,7 @@ void draw() {
 void createSnowflakes() {
   float tempZ = random(zMin, zMax);
   
-  if (millis() % 30 == 0) {
+  if (millis() % 20 == 0) {
     if (snowflakes.size() < numFlakes) {
       for (int i = 0; i < 2; i++) {
         float tHex = map(tempZ, zMin, zMax, 10, 80);
