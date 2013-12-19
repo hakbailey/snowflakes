@@ -33,27 +33,43 @@ PVector wind;
 boolean daytime = false;
 boolean pause = false;
 boolean tornadoMode = false;
-boolean rotateFlakes = false;
+boolean rotateFlakes = true;
 boolean antiGravityOn = false;
 boolean zScatter = true;
+boolean backgroundOn = false;
 
 float rotation = 0f; 
+
+PImage background = null;
+String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
   noCursor();
   smooth();
+  
+  // OPENGL Hint required to draw transparency correctly in 3D
   hint(DISABLE_DEPTH_TEST);
+  
+  // Load the backdrop image
+  try {
+    background = loadImage(backgroundPath);
+  } catch(Exception e) {
+    // Swallow the error if we cannot load the image 
+  }
 
+  // Initialize Leap Motion
   leap = new LeapMotionP5(this);
   leap.enableGesture(Type.TYPE_SWIPE);
 
+  // Set up environmental forces
   gravity = new PVector(0f, 0.007);
   antiGravity = new PVector(0f, -0.07);
   wind = new PVector(0.0, 0.0);
 
   snowflakes = new ArrayList<Flake>();
 
+  // Seed scene with initial snowflakes
   for (int i = 0; i < initNumFlakes; i++) {
     float tempZ = random(zMin, zMax);
 
@@ -76,11 +92,17 @@ void draw() {
   else {
     background(0);
   }
+  
+  // Draw backdrop if configured and present
+  if(backgroundOn && background != null) {
+    image(background, 0, 0);
+  }
 
   createSnowflakes();
   updateSnowflakes();
 }
 
+// Every so often, generate more snowflakes of each kind if we're under the limit
 void createSnowflakes() {
   float tempZ = random(zMin, zMax);
   
@@ -99,6 +121,7 @@ void createSnowflakes() {
   }
 }
 
+// Stomp on snowflakes once they are out of view
 void updateSnowflakes() {
   for (int i = snowflakes.size()-1; i >= 0; i--) {
     Flake flake = snowflakes.get(i);
@@ -108,12 +131,14 @@ void updateSnowflakes() {
         snowflakes.remove(i);
       }
 
+    // Swirl all current snowflakes 
     if (tornadoMode) {
       translate(width/2, 0);
       rotation += 0.0001;
       rotateY(rotation);
     }
 
+    // Reverse gravity and send the snowflakes into the sky
     if (!pause) {
       if (antiGravityOn) {
         flake.applyForce(antiGravity);
@@ -184,6 +209,10 @@ public void keyPressed() {
     break;
   case 'z':
     zScatter = !zScatter;
+    break;
+  case 'b':
+    backgroundOn = !backgroundOn;
+    break;
   default:
     break;
   }

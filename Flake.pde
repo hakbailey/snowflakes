@@ -16,7 +16,7 @@ abstract class Flake {
    */
   Flake(color flakeColor, float x, float y, float z, int r) {
     location = new PVector(x, y, z);
-    velocity = new PVector(0, 2, 0);
+    velocity = new PVector(0, 2, random(-1, 1));
     acceleration = new PVector(0, 0, 0);
     
     c = color(flakeColor);
