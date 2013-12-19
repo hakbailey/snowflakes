@@ -41,7 +41,7 @@ abstract class Flake {
     PVector force;
     
     if(zScatter) {
-      force = new PVector(v.getX(), 0f, random(-3, 3));
+      force = new PVector(v.getX(), 0f, random(-3f, 3f));
     } else {
       force = new PVector(v.getX(), 0f, 0f);
     }
@@ -50,7 +50,7 @@ abstract class Flake {
     applyForce(force);
     
     // Spin faster upon interaction; kind of a punt.
-    spinRate *= 1.2;
+    spinRate *= 1.15;
   }
   
   public void applyForce(PVector force) {
@@ -58,6 +58,8 @@ abstract class Flake {
   }
   
   public void update() {
+    
+    
     velocity.add(acceleration);
     location.add(velocity);
     acceleration.mult(0);
