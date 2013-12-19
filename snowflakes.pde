@@ -40,26 +40,36 @@ boolean backgroundOn = false;
 
 float rotation = 0f; 
 
-PImage background;
+PImage background = null;
 String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
   noCursor();
   smooth();
+  
+  // OPENGL Hint required to draw transparency correctly in 3D
   hint(DISABLE_DEPTH_TEST);
   
-  background = loadImage(backgroundPath);
+  // Load the backdrop image
+  try {
+    background = loadImage(backgroundPath);
+  } catch(Exception e) {
+    // Swallow the error if we cannot load the image 
+  }
 
+  // Initialize Leap Motion
   leap = new LeapMotionP5(this);
   leap.enableGesture(Type.TYPE_SWIPE);
 
+  // Set up environmental forces
   gravity = new PVector(0f, 0.007);
   antiGravity = new PVector(0f, -0.07);
   wind = new PVector(0.0, 0.0);
 
   snowflakes = new ArrayList<Flake>();
 
+  // Seed scene with initial snowflakes
   for (int i = 0; i < initNumFlakes; i++) {
     float tempZ = random(zMin, zMax);
 
@@ -83,7 +93,8 @@ void draw() {
     background(0);
   }
   
-  if(backgroundOn) {
+  // Draw backdrop if configured and present
+  if(backgroundOn && background != null) {
     image(background, 0, 0);
   }
 
@@ -91,6 +102,7 @@ void draw() {
   updateSnowflakes();
 }
 
+// Every so often, generate more snowflakes of each kind if we're under the limit
 void createSnowflakes() {
   float tempZ = random(zMin, zMax);
   
@@ -109,6 +121,7 @@ void createSnowflakes() {
   }
 }
 
+// Stomp on snowflakes once they are out of view
 void updateSnowflakes() {
   for (int i = snowflakes.size()-1; i >= 0; i--) {
     Flake flake = snowflakes.get(i);
@@ -127,12 +140,14 @@ void updateSnowflakes() {
       }
     }
 
+    // Swirl all current snowflakes 
     if (tornadoMode) {
       translate(width/2, 0);
       rotation += 0.0001;
       rotateY(rotation);
     }
 
+    // Reverse gravity and send the snowflakes into the sky
     if (!pause) {
       if (antiGravityOn) {
         flake.applyForce(antiGravity);
@@ -198,7 +213,6 @@ public void keyPressed() {
     pause = !pause;
     break;
   case 'a':
-    
     antiGravityOn = !antiGravityOn;
     break;
   case 'z':
