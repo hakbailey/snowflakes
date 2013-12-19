@@ -61,5 +61,40 @@ class LineFlake extends Flake{
       popMatrix();
     }
   }
+  
+  void drawToBuffer(PGraphics buffer) {
+    buffer.strokeWeight(8);
+    buffer.stroke(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
+    translate(width/2, height/2, location.z);
+    
+    hexSkeletonBuffer(radius, buffer);
+    buffer.rotate(radians(30));
+    for (int i = 0; i < 6; i++) {
+      drawStemBuffer(buffer);
+    }
+  }
 
+  void hexSkeletonBuffer(int r, PGraphics buffer) {
+    buffer.line(-r, 0, r, 0);
+    buffer.line(r * cos(theta), -r * sin(theta), -r * cos(theta), r * sin(theta));
+    buffer.line(r * cos(theta), r * sin(theta), -r * cos(theta), -r * sin(theta));
+  }
+  
+  void drawStemBuffer(PGraphics buffer) {
+    buffer.rotate(theta);
+    for (int i = 0; i < stemValues.size(); i++) {
+      float[] tempValues = (float[])stemValues.get(i);
+      buffer.pushMatrix();
+      buffer.translate(0, tempValues[0]);
+      buffer.rotate(tempValues[2]);
+      buffer.line(0, 0, 0, tempValues[1]);
+      buffer.popMatrix();
+      
+      buffer.pushMatrix();
+      buffer.translate(0, tempValues[0]);
+      buffer.rotate(-tempValues[2]);
+      buffer.line(0, 0, 0, tempValues[1]);
+      buffer.popMatrix();
+    }
+  }
 }

@@ -64,4 +64,30 @@ class HexFlake extends Flake {
                           {setRadius * cos(theta), -setRadius * sin(theta)}  };
     hexSetCoords.add(coords);
   }
+  
+  void drawToBuffer(PGraphics buffer) {
+    buffer.fill(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
+    buffer.noStroke();
+    buffer.translate(width/2, height/2, location.z);
+    
+    hexagonToBuffer(radius, 0, 0, buffer);
+
+    for (int i = 0; i < hexSetCoords.size(); i++) {
+      float[][] tempCoords = (float[][])hexSetCoords.get(i);
+      for (int j = 1; j < tempCoords.length; j++) {
+        float tempx = tempCoords[j][0];
+        float tempy = tempCoords[j][1];
+        int tempRadius = int(tempCoords[0][0]);
+        hexagonToBuffer(tempRadius, tempx, tempy, buffer);
+      }
+    }
+  }
+  
+  void hexagonToBuffer(int hexRadius, float xHex, float yHex, PGraphics buffer) {
+    buffer.beginShape();
+     for (int k = 0; k < 6; k++) {
+       buffer.vertex(xHex + hexRadius * cos(theta * k), yHex + hexRadius * sin(theta * k));
+     }
+    buffer.endShape(CLOSE);
+  }
 }

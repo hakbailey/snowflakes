@@ -45,7 +45,7 @@ String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-  noCursor();
+  //noCursor();
   smooth();
   
   // OPENGL Hint required to draw transparency correctly in 3D
@@ -224,12 +224,16 @@ void mouseClicked() {
   
   for (int i = snowflakes.size()-1; i >= 0; i--) {
     Flake flake = snowflakes.get(i);
+    float xf = screenX(flake.location.x, flake.location.y, flake.location.z);
+    float yf = screenY(flake.location.x, flake.location.y, flake.location.z);
     
-    if (tempX - 50 < flake.location.x && flake.location.x < tempX + 50 && tempY - 50 < flake.location.y && flake.location.y < tempY + 50) {
-      PGraphics buffer = createGraphics(500, 500);
+    if (tempX - 10 < xf && xf < tempX + 10 && tempY - 10 < yf && yf < tempY + 10) {
+      PGraphics buffer = createGraphics(600, 600);
       buffer.beginDraw();
       buffer.background(0);
-      buffer.translate(250, 250);
+      buffer.translate(300, 300);
+      
+      flake.drawToBuffer(buffer);
       //make a flake display in the buffer!  flake.display();
       buffer.endDraw();
 
