@@ -103,19 +103,10 @@ void updateSnowflakes() {
   for (int i = snowflakes.size()-1; i >= 0; i--) {
     Flake flake = snowflakes.get(i);
     float tempZ = random(zMin, zMax);
-
-    if (flake instanceof HexFlake) {
-      HexFlake tHexFlake = (HexFlake)flake;
-      if (tHexFlake.location.y > height+Z_OFFSET) {
+    
+    if (screenY(flake.location.x, flake.location.y, flake.location.z) > height + maxFlakeRadius) {
         snowflakes.remove(i);
       }
-    }
-    else if (flake instanceof LineFlake) {
-      LineFlake tLineFlake = (LineFlake)flake;
-      if (tLineFlake.location.y > height+Z_OFFSET) {
-        snowflakes.remove(i);
-      }
-    }
 
     if (tornadoMode) {
       translate(width/2, 0);
@@ -134,8 +125,9 @@ void updateSnowflakes() {
 
       flake.update();
     }
-
+    
     flake.display();
+    
   }
 }
 
@@ -194,6 +186,28 @@ public void keyPressed() {
     zScatter = !zScatter;
   default:
     break;
+  }
+}
+
+void mouseClicked() {
+  int tempX = mouseX;
+  int tempY = mouseY;
+  
+  for (int i = snowflakes.size()-1; i >= 0; i--) {
+    Flake flake = snowflakes.get(i);
+    
+    if (tempX - 50 < flake.location.x && flake.location.x < tempX + 50 && tempY - 50 < flake.location.y && flake.location.y < tempY + 50) {
+      PGraphics buffer = createGraphics(500, 500);
+      buffer.beginDraw();
+      buffer.background(0);
+      buffer.translate(250, 250);
+      //make a flake display in the buffer!  flake.display();
+      buffer.endDraw();
+
+      println("mouse clicked");
+      PImage img = buffer.get();
+      img.save("test.jpg");
+    }
   }
 }
 
