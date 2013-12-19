@@ -70,4 +70,7 @@ abstract class Flake {
   public void display() {
     // no-op.  overridden in sub-classes.
   }
+  
+  public void drawToBuffer(PGraphics buffer) {
+  }
 }

@@ -45,7 +45,7 @@ String backgroundPath = "winter.jpg";
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-  noCursor();
+  //noCursor();
   smooth();
   
   // OPENGL Hint required to draw transparency correctly in 3D
@@ -126,19 +126,10 @@ void updateSnowflakes() {
   for (int i = snowflakes.size()-1; i >= 0; i--) {
     Flake flake = snowflakes.get(i);
     float tempZ = random(zMin, zMax);
-
-    if (flake instanceof HexFlake) {
-      HexFlake tHexFlake = (HexFlake)flake;
-      if (tHexFlake.location.y > height+Z_OFFSET) {
+    
+    if (screenY(flake.location.x, flake.location.y, flake.location.z) > height + maxFlakeRadius) {
         snowflakes.remove(i);
       }
-    }
-    else if (flake instanceof LineFlake) {
-      LineFlake tLineFlake = (LineFlake)flake;
-      if (tLineFlake.location.y > height+Z_OFFSET) {
-        snowflakes.remove(i);
-      }
-    }
 
     // Swirl all current snowflakes 
     if (tornadoMode) {
@@ -159,8 +150,9 @@ void updateSnowflakes() {
 
       flake.update();
     }
-
+    
     flake.display();
+    
   }
 }
 
@@ -223,6 +215,32 @@ public void keyPressed() {
     break;
   default:
     break;
+  }
+}
+
+void mouseClicked() {
+  int tempX = mouseX;
+  int tempY = mouseY;
+  
+  for (int i = snowflakes.size()-1; i >= 0; i--) {
+    Flake flake = snowflakes.get(i);
+    float xf = screenX(flake.location.x, flake.location.y, flake.location.z);
+    float yf = screenY(flake.location.x, flake.location.y, flake.location.z);
+    
+    if (tempX - 10 < xf && xf < tempX + 10 && tempY - 10 < yf && yf < tempY + 10) {
+      PGraphics buffer = createGraphics(600, 600);
+      buffer.beginDraw();
+      buffer.background(0);
+      buffer.translate(300, 300);
+      
+      flake.drawToBuffer(buffer);
+      //make a flake display in the buffer!  flake.display();
+      buffer.endDraw();
+
+      println("mouse clicked");
+      PImage img = buffer.get();
+      img.save("test.jpg");
+    }
   }
 }
 
