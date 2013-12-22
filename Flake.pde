@@ -33,7 +33,7 @@ abstract class Flake {
   
   // TODO: Find out why the Leap convertVectorToPVector method is missing from the LeapP5 object
   // In the meantime, a separate apply method that translates the Leap motion parameters to PVector forces
-  public void applyInteractionForce(Vector v) {
+  public void applyInteractionForce(com.leapmotion.leap.Vector v) {
     
     // The magnitude of the vector from Leap is always 1.0.
     // Randomize the magnitude for each flake.
