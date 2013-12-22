@@ -1,7 +1,7 @@
 /**
  * PrismFlake
  * 
- * A simple particle flake drawn as a white, rotating double hexagonal pyramid.
+ * A simple particle flake drawn as a white, rotating double hexagonal pyramid. Modified version of CubeFlake
  * @author: Helen Bailey (helenkbailey)
  *
  */

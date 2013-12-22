@@ -7,6 +7,10 @@ import com.leapmotion.leap.Gesture;
 import com.leapmotion.leap.Gesture.State;
 import com.leapmotion.leap.Gesture.Type;
 import com.leapmotion.leap.SwipeGesture;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.swing.*;
 
 float theta = radians(60);
 float minHexRadius = 10;
@@ -21,6 +25,7 @@ ArrayList<Flake> snowflakes;
 float zMin = -2000;
 float zMax = 0;
 float Z_OFFSET = 900;
+String email;
 
 LeapMotionP5 leap;
 
@@ -183,7 +188,7 @@ public void swipeGestureRecognized(SwipeGesture gesture) {
 
   if (gesture.state() == State.STATE_STOP) {
 
-    Vector direction = gesture.direction();
+    com.leapmotion.leap.Vector direction = gesture.direction();
 
     for (int i = 0; i < snowflakes.size(); i++) {
       snowflakes.get(i).applyInteractionForce(direction);
@@ -247,6 +252,7 @@ void mouseClicked() {
     float xf = screenX(flake.location.x, flake.location.y, flake.location.z);
     float yf = screenY(flake.location.x, flake.location.y, flake.location.z);
     
+    // If the center of a flake is clicked, draw the flake in an offscreen buffer
     if (tempX - 10 < xf && xf < tempX + 10 && tempY - 10 < yf && yf < tempY + 10) {
       PGraphics buffer = createGraphics(600, 600);
       buffer.beginDraw();
@@ -254,12 +260,29 @@ void mouseClicked() {
       buffer.translate(300, 300);
       
       flake.drawToBuffer(buffer);
-      //make a flake display in the buffer!  flake.display();
       buffer.endDraw();
-
+      
+      // Save flake image from offscreen buffer
       PImage img = buffer.get();
-      img.save("your_flake_" + millis() + ".png");
+      img.save("snowflake.png");
     }
   }
+  
+  // Popup box to input email address
+  try { 
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } 
+    catch (Exception e) { 
+      e.printStackTrace();
+    } 
+    String preset="";
+    
+    email = JOptionPane.showInputDialog(frame, "Email Address", preset);    
+    println(email);
+    pause = !pause;
+    cursor = !cursor;
+    
+    // Send email to user input address
+    sendMail();
 }
 
