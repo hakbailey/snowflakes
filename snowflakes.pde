@@ -19,7 +19,7 @@ float maxHexRadius = 50;
 float minFlakeRadius = 200;
 float maxFlakeRadius = 200;
 int initNumFlakes = 20;
-int numFlakes = 75;
+int numFlakes = 2000;
 color flakeColor;
 ArrayList<Flake> snowflakes;
 float zMin = -2000;
@@ -91,6 +91,10 @@ void setup() {
     for(int j = 0; j < 2; j++) {
       snowflakes.add(new PrismFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height, height), tempZ, int(random(8, 15))));
     }
+    
+    for(int j = 0; j < 50; j++) {
+      snowflakes.add(new GlitterFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height, height), tempZ, 2));
+    }
   }
 }
 
@@ -126,7 +130,7 @@ void draw() {
 void createSnowflakes() {
   float tempZ = random(zMin, zMax);
   
-  if (millis() % 20 == 0) {
+  if (millis() % 50 == 0) {
     if (snowflakes.size() < numFlakes) {
       for (int i = 0; i < 2; i++) {
         float tHex = map(tempZ, zMin, zMax, 10, 80);
@@ -137,8 +141,12 @@ void createSnowflakes() {
         flakeColor = color(int(random(40, 60)), int(random(60, 200)), int(random(210, 230)), tLine);
         snowflakes.add(new LineFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, int(random(minFlakeRadius, maxFlakeRadius))));
         
-        for(int j = 0; j < 2; j++) {
-          snowflakes.add(new PrismFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, int(random(8, 15))));
+//        for(int j = 0; j < 2; j++) {
+//          snowflakes.add(new PrismFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, int(random(8, 15))));
+//        }
+
+        for(int j = 0; j < 50; j++) {
+          snowflakes.add(new GlitterFlake(flakeColor, random(-Z_OFFSET, width+Z_OFFSET), random(-height-Z_OFFSET, -Z_OFFSET - maxFlakeRadius), tempZ, 3));
         }
       }
     }

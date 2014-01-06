@@ -66,7 +66,7 @@ class HexFlake extends Flake {
   }
   
   void drawToBuffer(PGraphics buffer) {
-    buffer.fill(red(c), green(c), blue(c), alpha(c) + 10);
+    buffer.fill(red(c), green(c), blue(c), alpha(c) + 20);
     buffer.noStroke();
     buffer.translate(width/2, height/2, location.z);
     

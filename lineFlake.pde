@@ -9,7 +9,7 @@ class LineFlake extends Flake{
   
   void display() {
     strokeWeight(8);
-    stroke(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 10));
+    stroke(red(c), green(c), blue(c), random(alpha(c), alpha(c) + 20));
     pushMatrix();
     translate(location.x, location.y, location.z);
     
